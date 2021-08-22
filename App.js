@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { View } from 'react-native';
 import { NavigationContainer } from "@react-navigation/native";
 import { ListItem, Avatar } from "react-native-elements";
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -17,6 +18,7 @@ import {
   Image,
 } from "native-base";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { FlatGrid } from 'react-native-super-grid';
 import * as ImagePicker from "expo-image-picker"
 
 export default function App() {
@@ -37,10 +39,12 @@ export default function App() {
           } else if (route.name == 'Receipts') {
             iconName = focused 
               ? 'receipt' : 'receipt-outline';
-          } else if (route.name == 'Recipes') {
+          } else if (route.name == 'Meals') {
             iconName = focused 
               ? 'fast-food' : 'fast-food-outline';
-
+          } else if (route.name == 'Groceries') {
+            iconName = focused 
+              ? 'cart' : 'cart-outline';
           }
 
           return <Ionicons name={iconName} size={size} color={color} />;
@@ -49,8 +53,9 @@ export default function App() {
         }
       >
         <Tab.Screen name="Home" component={HomeScreen} />
+        <Tab.Screen name="Groceries" component={GroceriesScreen} />
+        <Tab.Screen name="Meals" component={MealsScreen} />
         <Tab.Screen name="Receipts" component={ReceiptsScreen} />
-        <Tab.Screen name="Recipes" component={RecipesScreen} />
       </Tab.Navigator>
     </NavigationContainer>
     </NativeBaseProvider>  
@@ -59,7 +64,8 @@ export default function App() {
 
 const Tab = createBottomTabNavigator();
 
-const list = [
+//HARDCODED DATA
+const GroceriesData = [
   {
     name: "Tea",
     avatar_url:
@@ -98,11 +104,35 @@ const list = [
   },
 ];
 
-const GroceryList = () => {
+const MealsData = [
+    { name: 'TURQUOISE', code: '#1abc9c' },
+    { name: 'EMERALD', code: '#2ecc71' },
+    { name: 'PETER RIVER', code: '#3498db' },
+    { name: 'AMETHYST', code: '#9b59b6' },
+    { name: 'WET ASPHALT', code: '#34495e' },
+    { name: 'GREEN SEA', code: '#16a085' },
+    { name: 'NEPHRITIS', code: '#27ae60' },
+    { name: 'BELIZE HOLE', code: '#2980b9' },
+    { name: 'WISTERIA', code: '#8e44ad' },
+    { name: 'MIDNIGHT BLUE', code: '#2c3e50' },
+    { name: 'SUN FLOWER', code: '#f1c40f' },
+    { name: 'CARROT', code: '#e67e22' },
+    { name: 'ALIZARIN', code: '#e74c3c' },
+    { name: 'CLOUDS', code: '#ecf0f1' },
+    { name: 'CONCRETE', code: '#95a5a6' },
+    { name: 'ORANGE', code: '#f39c12' },
+    { name: 'PUMPKIN', code: '#d35400' },
+    { name: 'POMEGRANATE', code: '#c0392b' },
+    { name: 'SILVER', code: '#bdc3c7' },
+    { name: 'ASBESTOS', code: '#7f8c8d' },
+];
+
+
+const GroceriesList = () => {
   return (
     <VStack>
       {
-        list.map((l, i) => (
+        GroceriesData.map((l, i) => (
           <ListItem key={i} bottomDivider>
             <Avatar source={{uri: l.avatar_url}} />
             <ListItem.Content>
@@ -117,16 +147,42 @@ const GroceryList = () => {
   );
 }
 
+const MealsGrid = () => {
+  const [meals, setMeals] = React.useState(MealsData);
+  return (
+    <FlatGrid
+      itemDimension={100}
+      data={meals}
+      spacing={10}
+        renderItem={({ item }) => (
+          <View>
+            <Text> {item.name} </Text>
+            <Text> {item.code} </Text>
+          </View>
+      )}
+    />
+
+  );
+
+}
+
 const HomeScreen = () => {
   return (
     <VStack bg="white" space={4}> 
     <Heading alignSelf="flex-start" pt={10} px={5} color="dark.50">Home</Heading>
       <HStack justifyContent="space-around" py={4} px={3}>
         <Button endIcon={<Icon as={Ionicons} name="arrow-forward" size={4}/>} bg="amber.400"> Receipts </Button>
-        <Button endIcon={<Icon as={Ionicons} name="arrow-forward" size={4}/>} bg="secondary.400"> Recipes </Button>
+        <Button endIcon={<Icon as={Ionicons} name="arrow-forward" size={4}/>} bg="secondary.400"> Meals </Button>
       </HStack>
-      <GroceryList/>
     </ VStack>
+  );
+}
+
+const GroceriesScreen = () => {
+  return (
+    <VStack bg="white" space={4}>
+      <GroceriesList/>
+    </VStack>
   );
 }
 
@@ -173,7 +229,7 @@ const CameraCard = () => {
   };
   return (
     <VStack>
-      <Box shadow={2} bg="white" p="12" rounded="sm">
+      <Box shadow={2} p="12" rounded="sm">
         <Button
           onPress={clickImage}
           bg="amber.400"
@@ -196,14 +252,20 @@ const ReceiptsScreen = () => {
       Receipts
     </Heading>
     <CameraCard/>
+    {/*TODO: update to ReceiptsGrid; just placeholder*/}
+  <MealGrid/>
   </VStack>
   )
 }
 
-const RecipesScreen = () => {
+const MealsScreen = () => {
   return (
   <VStack>
+    <Heading pt={6} px={4} alignSelf="center" color="dark.50">
+      Meals
+    </Heading>
     <CameraCard> </CameraCard>
+    <MealsGrid/>
   </VStack>
   )
 
