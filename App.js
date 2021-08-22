@@ -70,9 +70,9 @@ const GroceryList = () => {
 const HomeScreen = () => {
   return (
     <VStack bg="white" space={4}> 
-    <Heading alignSelf="center" pt={8}>Home</Heading>
+    <Heading alignSelf="flex-start" pt={10} px={5} color="dark.50">Home</Heading>
       <HStack justifyContent="space-around" py={4} px={3}>
-        <Button endIcon={<Icon as={Ionicons} name="arrow-forward" size={4}/>} bg="primary.400"> Receipts </Button>
+        <Button endIcon={<Icon as={Ionicons} name="arrow-forward" size={4}/>} bg="amber.400"> Receipts </Button>
         <Button endIcon={<Icon as={Ionicons} name="arrow-forward" size={4}/>} bg="secondary.400"> Recipes </Button>
       </HStack>
       <GroceryList/>
@@ -80,11 +80,11 @@ const HomeScreen = () => {
   );
 }
 
-const CaptureCard = () => {
+const CameraCard = () => {
   return (
     <VStack> 
-      <Box shadow={2} bg="white" p="12" rounded="sm" >
-      <Button bg="primary.400" alignSelf="center"
+      <Box shadow={2} p="12" rounded="sm" >
+      <Button bg="amber.400" alignSelf="center"
         startIcon={<Icon as={MaterialCommunityIcons} name="camera" size={5} />}
       >
         Upload
@@ -97,11 +97,11 @@ const CaptureCard = () => {
 
 const ReceiptsScreen = () => {
   return (
-  <VStack>
-    <Heading alignSelf="center" color="blue.500">
+  <VStack bg="white">
+    <Heading pt={6} px={4} alignSelf="center" color="dark.50">
       Receipts
     </Heading>
-    <CaptureCard/>
+    <CameraCard/>
   </VStack>
   )
 }
@@ -109,7 +109,7 @@ const ReceiptsScreen = () => {
 const RecipesScreen = () => {
   return (
   <VStack>
-    <CaptureCard> </CaptureCard>
+    <CameraCard> </CameraCard>
   </VStack>
   )
 
