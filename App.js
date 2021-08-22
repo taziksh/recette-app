@@ -71,68 +71,102 @@ const GroceriesData = [
     name: "Tea",
     avatar_url:
       "https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg",
-    subtitle: "40oz",
+    amount: "40oz",
   },
   {
     name: "Tapioca Pearls",
     avatar_url:
       "https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg",
-    subtitle: "500g",
+    amount: "500g",
   },
   {
     name: "Quinoa",
     avatar_url:
       "https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg",
-    subtitle: "500g",
+    amount: "500g",
   },
   {
-    name: "Avocado toast",
+    name: "Avocado",
     avatar_url:
       "https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg",
-    subtitle: "500g",
+    amount: "500g",
   },
   {
     name: "Soy sauce",
     avatar_url:
       "https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg",
-    subtitle: "40oz",
+    amount: "40oz",
   },
   {
     name: "Oranges",
     avatar_url:
       "https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg",
-    subtitle: "40oz",
+    amount: "40oz",
   },
 ];
 
 const MealsData = [
-    { name: 'TURQUOISE', code: '#1abc9c' },
-    { name: 'EMERALD', code: '#2ecc71' },
-    { name: 'PETER RIVER', code: '#3498db' },
-    { name: 'AMETHYST', code: '#9b59b6' },
-    { name: 'WET ASPHALT', code: '#34495e' },
-    { name: 'GREEN SEA', code: '#16a085' },
-    { name: 'NEPHRITIS', code: '#27ae60' },
-    { name: 'BELIZE HOLE', code: '#2980b9' },
-    { name: 'WISTERIA', code: '#8e44ad' },
-    { name: 'MIDNIGHT BLUE', code: '#2c3e50' },
-    { name: 'SUN FLOWER', code: '#f1c40f' },
-    { name: 'CARROT', code: '#e67e22' },
-    { name: 'ALIZARIN', code: '#e74c3c' },
-    { name: 'CLOUDS', code: '#ecf0f1' },
+  {
+    name: "Veggie Pizza",
+    avatar_url:
+      "https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg",
+  },
+  {
+    name: "Bubble Tea",
+    avatar_url:
+      "https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg",
+  },
+  {
+    name: "Fried Rice",
+    avatar_url:
+      "https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg",
+  },
+  {
+    name: "Avocado Toast",
+    avatar_url:
+      "https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg",
+  },
+  {
+    name: "Orange chicken",
+    avatar_url:
+      "https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg",
+  },
+  {
+    name: "Apple pie",
+    avatar_url:
+      "https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg",
+  },
 ];
 
 
 const GroceriesList = () => {
   return (
-    <VStack>
+    <VStack justifyContent="space-around" bg="white"  py={4} px={3} space={4}> 
       {
         GroceriesData.map((l, i) => (
           <ListItem key={i} bottomDivider>
             <Avatar source={{uri: l.avatar_url}} />
             <ListItem.Content>
               <ListItem.Title>{l.name}</ListItem.Title>
-              <ListItem.Subtitle>{l.subtitle} </ListItem.Subtitle>
+              <ListItem.Subtitle>{l.amount} </ListItem.Subtitle>
+            </ListItem.Content>
+          </ListItem>
+
+        ))
+      }
+    </VStack>
+  );
+}
+
+const MealsList= () => {
+  return (
+    <VStack>
+      {
+        MealsData.map((l, i) => (
+          <ListItem key={i} bottomDivider>
+            <Avatar source={{uri: l.avatar_url}} />
+            <ListItem.Content>
+              <ListItem.Title>{l.name}</ListItem.Title>
             </ListItem.Content>
           </ListItem>
 
@@ -150,10 +184,9 @@ const MealsGrid = () => {
       data={meals}
       spacing={10}
         renderItem={({ item }) => (
-          <VStack bg="secondary.400">
+          <View style={{backgroundColor: 'white'}}>
             <Text> {item.name} </Text>
-            <Text> {item.code} </Text>
-          </VStack>
+          </View>
       )}
     />
 
@@ -176,7 +209,7 @@ const GroceriesScreen = ({ navigation }) => {
   return (
     <VStack bg="white" space={4}>
     <Heading pt={6} px={4} alignSelf="center" color="dark.50">
-     Groceries 
+     {<Icon as={Ionicons} name="cart" size={6}/>} Groceries 
     </Heading>
       <GroceriesList/>
     </VStack>
@@ -246,6 +279,7 @@ const ReceiptsScreen = ({ navigation }) => {
   return (
   <VStack bg="white">
     <Heading pt={6} px={4} alignSelf="center" color="dark.50">
+     {<Icon as={Ionicons} name="receipt" size={6}/>} 
       Receipts
     </Heading>
     <CameraCard/>
@@ -258,10 +292,11 @@ const MealsScreen = ({ navigation }) => {
   return (
   <VStack bg="white">
     <Heading pt={6} px={4} alignSelf="center" color="dark.50">
+     {<Icon as={Ionicons} name="fast-food" size={6}/>} 
       Meals
     </Heading>
-    <CameraCard> </CameraCard>
-    <MealsGrid/>
+    <CameraCard/>
+    <MealsList/>
   </VStack>
   )
 
