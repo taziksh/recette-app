@@ -1,10 +1,23 @@
-import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { ListItem, Avatar } from 'react-native-elements';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import { NativeBaseProvider, VStack, HStack, Center, Heading, Text, Button, Box, Divider, Icon, Image  } from 'native-base';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import React, { useState, useEffect } from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { ListItem, Avatar } from "react-native-elements";
+import Ionicons from "react-native-vector-icons/Ionicons";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import {
+  NativeBaseProvider,
+  VStack,
+  HStack,
+  Center,
+  Heading,
+  Text,
+  Button,
+  Box,
+  Divider,
+  Icon,
+  Image,
+} from "native-base";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import * as ImagePicker from "expo-image-picker"
 
 export default function App() {
   return (
@@ -46,7 +59,44 @@ export default function App() {
 
 const Tab = createBottomTabNavigator();
 
-const list = [  {    name: 'Tea',    avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',    subtitle: '40oz'  },  {    name: 'Tapioca Pearls',    avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',    subtitle: '500g'  }, {    name: 'Quinoa',    avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',    subtitle: '500g'  }, {    name: 'Avocado toast',    avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',    subtitle: '500g'  }, {    name: 'Soy sauce',    avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',    subtitle: '40oz'  },{    name: 'Oranges',    avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',    subtitle: '40oz'  },]
+const list = [
+  {
+    name: "Tea",
+    avatar_url:
+      "https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg",
+    subtitle: "40oz",
+  },
+  {
+    name: "Tapioca Pearls",
+    avatar_url:
+      "https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg",
+    subtitle: "500g",
+  },
+  {
+    name: "Quinoa",
+    avatar_url:
+      "https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg",
+    subtitle: "500g",
+  },
+  {
+    name: "Avocado toast",
+    avatar_url:
+      "https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg",
+    subtitle: "500g",
+  },
+  {
+    name: "Soy sauce",
+    avatar_url:
+      "https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg",
+    subtitle: "40oz",
+  },
+  {
+    name: "Oranges",
+    avatar_url:
+      "https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg",
+    subtitle: "40oz",
+  },
+];
 
 const GroceryList = () => {
   return (
@@ -81,19 +131,63 @@ const HomeScreen = () => {
 }
 
 const CameraCard = () => {
+  const [image, setImage] = useState(null);
+  useEffect(() => {
+    (async () => {
+      if (Platform.OS !== "web") {
+        const { status } =
+          await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (status !== "granted") {
+          alert("Sorry, we need camera roll permissions to make this work!");
+        }
+      }
+    })();
+  }, []);
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    console.log(result);
+
+    if (!result.cancelled) {
+      setImage(result.uri);
+    }
+  };
+  const clickImage = async () => {
+    let result = await ImagePicker.launchCameraAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    console.log(result);
+
+    if (!result.cancelled) {
+      setImage(result.uri);
+    }
+  };
   return (
-    <VStack> 
-      <Box shadow={2} p="12" rounded="sm" >
-      <Button bg="amber.400" alignSelf="center"
-        startIcon={<Icon as={MaterialCommunityIcons} name="camera" size={5} />}
-      >
-        Upload
-      </Button>
+    <VStack>
+      <Box shadow={2} bg="white" p="12" rounded="sm">
+        <Button
+          onPress={clickImage}
+          bg="amber.400"
+          alignSelf="center"
+          startIcon={
+            <Icon as={MaterialCommunityIcons} name="camera" size={5} />
+          }
+        >
+          Click Image
+        </Button>
       </Box>
-      
     </VStack>
   );
-}
+};
 
 const ReceiptsScreen = () => {
   return (
