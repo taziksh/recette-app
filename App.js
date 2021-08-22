@@ -26,6 +26,7 @@ export default function App() {
     <NativeBaseProvider>
     <NavigationContainer>
       <Tab.Navigator
+        sceneContainerStyle={{backgroundColor: 'transparent'}}
         screenOptions={
           ({route}) => ({
           headerShown: false,    
@@ -119,12 +120,6 @@ const MealsData = [
     { name: 'CARROT', code: '#e67e22' },
     { name: 'ALIZARIN', code: '#e74c3c' },
     { name: 'CLOUDS', code: '#ecf0f1' },
-    { name: 'CONCRETE', code: '#95a5a6' },
-    { name: 'ORANGE', code: '#f39c12' },
-    { name: 'PUMPKIN', code: '#d35400' },
-    { name: 'POMEGRANATE', code: '#c0392b' },
-    { name: 'SILVER', code: '#bdc3c7' },
-    { name: 'ASBESTOS', code: '#7f8c8d' },
 ];
 
 
@@ -151,14 +146,14 @@ const MealsGrid = () => {
   const [meals, setMeals] = React.useState(MealsData);
   return (
     <FlatGrid
-      itemDimension={100}
+      itemDimension={130}
       data={meals}
       spacing={10}
         renderItem={({ item }) => (
-          <View>
+          <VStack bg="secondary.400">
             <Text> {item.name} </Text>
             <Text> {item.code} </Text>
-          </View>
+          </VStack>
       )}
     />
 
@@ -166,21 +161,23 @@ const MealsGrid = () => {
 
 }
 
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }) => {
   return (
-    <VStack bg="white" space={4}> 
+    <VStack justifyContent="space-around" bg="white"  py={4} px={3} space={4}> 
     <Heading alignSelf="flex-start" pt={10} px={5} color="dark.50">Home</Heading>
-      <HStack justifyContent="space-around" py={4} px={3}>
-        <Button endIcon={<Icon as={Ionicons} name="arrow-forward" size={4}/>} bg="amber.400"> Receipts </Button>
-        <Button endIcon={<Icon as={Ionicons} name="arrow-forward" size={4}/>} bg="secondary.400"> Meals </Button>
-      </HStack>
+        <Button onPress={() => navigation.navigate('Groceries')} startIcon={<Icon as={Ionicons} name="cart" size={6}/>} endIcon={<Icon as={Ionicons} name="arrow-forward" size={6}/>} bg="primary.400"> Groceries</Button>
+      <Button onPress={() => navigation.navigate('Meals')}  startIcon={<Icon as={Ionicons} name="fast-food" size={6}/>} endIcon={<Icon as={Ionicons} name="arrow-forward" size={6}/>} bg="amber.400"> Meals </Button>
+        <Button onPress={() => navigation.navigate('Receipts')} startIcon={<Icon as={Ionicons} name="receipt" size={6}/>} endIcon={<Icon as={Ionicons} name="arrow-forward" size={4}/>} bg="secondary.400"> Receipts </Button>
     </ VStack>
   );
 }
 
-const GroceriesScreen = () => {
+const GroceriesScreen = ({ navigation }) => {
   return (
     <VStack bg="white" space={4}>
+    <Heading pt={6} px={4} alignSelf="center" color="dark.50">
+     Groceries 
+    </Heading>
       <GroceriesList/>
     </VStack>
   );
@@ -238,14 +235,14 @@ const CameraCard = () => {
             <Icon as={MaterialCommunityIcons} name="camera" size={5} />
           }
         >
-          Click Image
+          Upload Image
         </Button>
       </Box>
     </VStack>
   );
 };
 
-const ReceiptsScreen = () => {
+const ReceiptsScreen = ({ navigation }) => {
   return (
   <VStack bg="white">
     <Heading pt={6} px={4} alignSelf="center" color="dark.50">
@@ -253,14 +250,13 @@ const ReceiptsScreen = () => {
     </Heading>
     <CameraCard/>
     {/*TODO: update to ReceiptsGrid; just placeholder*/}
-  <MealGrid/>
   </VStack>
   )
 }
 
-const MealsScreen = () => {
+const MealsScreen = ({ navigation }) => {
   return (
-  <VStack>
+  <VStack bg="white">
     <Heading pt={6} px={4} alignSelf="center" color="dark.50">
       Meals
     </Heading>
